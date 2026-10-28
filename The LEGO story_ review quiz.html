@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LEGO story: review quiz</title>
+<style>
+:root{--bg:#f6f1e7;--fg:#1f2430;--card:#ffffff;--line:#e3ddd0;--acc:#d9382b;--ok:#1d7a46;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f2430;--fg:#f6f1e7;--card:#2a3040;--line:#3a4256;--acc:#ff8a7a;--ok:#5fd18c}}
+:root[data-theme="dark"]{--bg:#1f2430;--fg:#f6f1e7;--card:#2a3040;--line:#3a4256;--acc:#ff8a7a;--ok:#5fd18c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.4 Arial,Helvetica,sans-serif;display:flex;justify-content:center}
+main{max-width:640px;width:100%;padding:24px;box-sizing:border-box}
+h1{font:400 32px/1.15 Georgia,serif;margin:0 0 8px}
+.meta{color:var(--acc);font-weight:700;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+button{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px;cursor:pointer}
+button.ok{border-color:var(--ok);outline:2px solid var(--ok)}
+button.no{border-color:var(--acc);outline:2px solid var(--acc)}
+.next{background:var(--acc);color:#fff;text-align:center;font-weight:700}
+.exp{margin-top:14px}
+</style></head><body><main id="app"></main>
+<script>
+const Q=[
+["In which year did a fire destroy Ole’s workshop and home?",["1916","1924","1932","1949"],1,"Two of his children accidentally set the glue heater on fire in 1924."],
+["Which event in 1929 pushed Ole into bankruptcy?",["A second fire","A flood","The Great Depression","A factory strike"],2,"Export markets collapsed, so he went bankrupt and let his workers go."],
+["Why did Ole choose to make toys?",["Toys were already cheap to import","His woodworking skill let him make toys no one else made","His family told him to","A bank required it"],1,"Advisers urged products that were in demand and easy to sell, and he saw toys as a fit for his skills."],
+["Where does the name LEGO come from?",["“Leg godt”, Danish for play well","A founder’s initials","A Latin word for brick","A town name"],0,"Ole created the name in 1934 from the Danish “leg godt”."],
+["What did LEGO launch in 1949?",["The minifigure","Legoland","Interlocking plastic bricks","Robotics sets"],2,"After buying a plastic injection-molding machine, the company launched its first interlocking bricks."],
+["What was LEGO’s revenue in 2025?",["DKK 8.35 billion","DKK 41.9 billion","DKK 83.5 billion","DKK 835 billion"],2,"Revenue rose 12% to DKK 83.5 billion, a record."],
+["Why did we choose LEGO for this presentation?",["It is the cheapest toy","For the history behind it and its great story of development","Because it is the oldest company","For its films"],1,"Its history shows resilience, reinvention and growth."]
+];
+let i=0,s=0,done=false;const app=document.getElementById("app");
+function show(){
+ if(i>=Q.length){app.innerHTML='<h1>Quiz complete</h1><div class="card"><p style="font-size:28px;margin:0">'+s+' / '+Q.length+'</p><button class="next" id="r">Try again</button></div>';document.getElementById("r").onclick=function(){i=0;s=0;show()};return}
+ done=false;const q=Q[i];
+ app.innerHTML='<h1>The LEGO story: review</h1><p class="meta">Question '+(i+1)+' of '+Q.length+'</p><div class="card"><div>'+q[0]+'</div><div id="o"></div><div id="e"></div></div>';
+ q[1].forEach(function(t,k){const b=document.createElement("button");b.textContent=t;b.onclick=function(){pick(k,b)};document.getElementById("o").appendChild(b)});
+}
+function pick(k,b){
+ if(done)return;done=true;const q=Q[i],bs=document.querySelectorAll("#o button");
+ bs[q[2]].classList.add("ok");if(k===q[2])s++;else b.classList.add("no");
+ document.getElementById("e").innerHTML='<p class="exp">'+q[3]+'</p><button class="next" id="n">'+(i+1<Q.length?"Next":"See score")+'</button>';
+ document.getElementById("n").onclick=function(){i++;show()};
+}
+show();
+</script></body></html>
